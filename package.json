@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "description": "REST API for the PriceSage product recommendation and price comparison system",
   "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "engines": { "node": ">=16" },
-  "license": "MIT"
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "pg": "^8.23.1"
+  }
 }

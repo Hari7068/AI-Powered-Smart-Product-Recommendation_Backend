@@ -1,5 +1,5 @@
 // Rule-based recommendation engine: query parsing + weighted scoring.
-const { PRODUCTS } = require("./products");
+const { PRODUCTS: SAMPLE_PRODUCTS } = require("./products");
 
 const FEATURE_KEYWORDS = {
   gaming: ["gaming", "game", "fps"],
@@ -43,10 +43,10 @@ function parseQuery(query) {
   return intent;
 }
 
-function scoreProduct(p, intent) {
+function scoreProduct(p, intent, products) {
   const rating = (p.r - 3.5) / 1.5;
 
-  const pool = PRODUCTS.filter((x) => x.c === p.c).map((x) => x.best.v);
+  const pool = products.filter((x) => x.c === p.c).map((x) => x.best.v);
   const lo = Math.min(...pool);
   const hi = Math.max(...pool);
   let value = hi === lo ? 1 : 1 - (p.best.v - lo) / (hi - lo);
@@ -78,9 +78,9 @@ function scoreProduct(p, intent) {
   };
 }
 
-function recommend(query) {
+function recommend(query, products = SAMPLE_PRODUCTS) {
   const intent = parseQuery(query);
-  const results = PRODUCTS.map((p) => scoreProduct(p, intent)).sort((a, b) => b.pct - a.pct);
+  const results = products.map((p) => scoreProduct(p, intent, products)).sort((a, b) => b.pct - a.pct);
   return { intent, results };
 }
 
